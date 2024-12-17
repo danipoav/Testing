@@ -1,12 +1,17 @@
 class Room {
-  constructor(name, bookings, rate, discount) {
+  constructor(name, rate, discount = 0) {
     this.name = name;
-    this.bookings = bookings || [];
+    this.bookings = [];
     this.rate = rate;
     this.discount = discount;
   }
 
   isOccupied(date) {
+    return this.bookings.some(
+      (booking) =>
+        date >= booking.checkIn && date <= booking.checkOut
+    )
+
   }
 
   occupancyPercentage(startDate, endDate) {
@@ -33,3 +38,4 @@ class Booking {
   }
 }
 
+module.exports = { Room, Booking };
