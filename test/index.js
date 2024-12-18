@@ -15,6 +15,35 @@ class Room {
   }
 
   occupancyPercentage(startDate, endDate) {
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    let totalDays = 0;
+    let occupancyDays = 0;
+
+    let currentDate = new Date(start)
+    while (currentDate <= end) {
+      totalDays++;
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+
+    this.bookings.forEach(booking => {
+      const bookingStart = new Date(booking.checkIn);
+      const bookingEnd = new Date(booking.checkOut);
+
+      const overStart = bookingStart > start ? bookingStart : start
+      const overEnd = bookingEnd < end ? bookingEnd : end
+
+      if (overStart <= overEnd) {
+        let date = new Date(overStart)
+        while (date <= overEnd) {
+          occupancyDays++;
+          date.setDate(date.getDate() + 1)
+        }
+      }
+    })
+    const occupancyPercentage = ((occupancyDays / totalDays) * 100).toFixed(2)
+
+    return occupancyPercentage;
   }
 
   static totalOccupancyPercentage(rooms, startDate, endDate) {
