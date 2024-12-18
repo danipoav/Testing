@@ -70,6 +70,17 @@ class Room {
 
 
   static availableRooms(rooms, startDate, endDate) {
+    const start = startDate;
+    const end = endDate;
+
+    return rooms.filter(room => {
+      return !room.bookings.some(booking => {
+        const bookingStart = booking.checkIn;
+        const bookingEnd = booking.checkOut;
+
+        return start <= bookingStart && end >= bookingEnd
+      });
+    });
   }
 }
 

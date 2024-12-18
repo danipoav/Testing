@@ -49,6 +49,13 @@ describe('Room tests', () => {
         expect(result).toBe('50.00');
     })
 
+    test('function availableRooms returns the rooms are available', () => {
+        const room2 = new Room('Room 102', 12000, 10);
+        const rooms = [room, room2];
+        const available = Room.availableRooms(rooms, '2024-06-16', '2024-06-20');
+        expect(available).toContain(room2);
+    })
+
     test('function fee whre it returns the final price discounting bookings and rooms', () => {
         const room = new Room('Room 101', 100, 10);
         const booking = new Booking(
@@ -60,6 +67,20 @@ describe('Room tests', () => {
             room
         );
         room.bookings.push(booking);
-        expect(booking.fee).toBe('10')
+        expect(booking.fee).toBe(378)
+    })
+
+    test('function fee whre it returns the final price discounting bookings and rooms', () => {
+        const room = new Room('Room 101', 100, 50);
+        const booking = new Booking(
+            'Dani Poveda',
+            'dapoav@gmail.com',
+            new Date('2024-06-20'),
+            new Date('2024-06-30'),
+            10,
+            room
+        );
+        room.bookings.push(booking);
+        expect(booking.fee).toBe(495)
     })
 })
