@@ -66,7 +66,7 @@ class Room {
     const totalDaysRooms = rooms.length * totalDays;
 
     return (totalOccupiedDays / totalDaysRooms * 100).toFixed(2);
-}
+  }
 
 
   static availableRooms(rooms, startDate, endDate) {
@@ -84,6 +84,26 @@ class Booking {
   }
 
   get fee() {
+    const roomRate = this.room.rate;
+    const roomDiscount = this.room.discount;
+    const bookingDiscount = this.discount;
+
+    const roomRateDiscount = (roomRate * roomDiscount) / 100;
+    const discountedRate = roomRate - roomRateDiscount;
+
+    const bookingRateDiscount = (discountedRate * bookingDiscount) / 100;
+    const finalRate = discountedRate - bookingRateDiscount;
+
+
+    let totalDays = 0;
+
+    let startDate = new Date(this.checkIn);
+    while (startDate <= this.checkOut) {
+      totalDays++;
+      startDate.setDate(startDate.getDate() + 1);
+    }
+
+    return finalRate * totalDays
   }
 }
 

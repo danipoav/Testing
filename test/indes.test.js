@@ -48,4 +48,18 @@ describe('Room tests', () => {
         const result = Room.totalOccupancyPercentage(rooms, new Date('2024-06-10'), new Date('2024-06-20'));
         expect(result).toBe('50.00');
     })
+
+    test('function fee whre it returns the final price discounting bookings and rooms', () => {
+        const room = new Room('Room 101', 100, 10);
+        const booking = new Booking(
+            'Dani Poveda',
+            'dapoav@gmail.com',
+            new Date('2024-06-10'),
+            new Date('2024-06-15'),
+            30,
+            room
+        );
+        room.bookings.push(booking);
+        expect(booking.fee).toBe('10')
+    })
 })
